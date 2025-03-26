@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Profile from './pages/Profile'
 import VotingPage from './pages/VotingPage'
 import PastPolls from './pages/PastPolls'
+import AvailablePolls from './pages/AvailablePolls'
 
 
 function App() {
@@ -19,8 +20,9 @@ function App() {
       
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/polls" element={<ResultPage />} />
-          <Route path='/pastpolls' element={<PastPolls/>} />
+          <Route path="/results" element={<ResultPage />} />
+          <Route path='/pastPolls' element={<PastPolls/>} />
+          <Route path="/availablePolls" element={<AvailablePolls/>} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/votingPanel" element={<VotingPage/>} />
         </Routes>

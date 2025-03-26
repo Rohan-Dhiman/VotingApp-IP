@@ -2,7 +2,7 @@ import React from 'react'
 
 function Profile() {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center my-12 bg-gray-100">
         <div className="p-8 max-w-xl bg-white rounded-lg shadow-md">
             <img
                 src="https://swarajya.gumlet.io/swarajya/2024-06/86181ebe-60cb-467d-a01a-f88c58b9632c/27_06_1.png?w=610&q=50&compress=true&format=auto"
