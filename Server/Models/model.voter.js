@@ -9,8 +9,8 @@ const VoterModel = new Schema({
     },
     photo:{
         data:Buffer,
-        contentType:String,
-        required:true
+        contentType:String
+        
     },
     AadharId:{
         type:String,

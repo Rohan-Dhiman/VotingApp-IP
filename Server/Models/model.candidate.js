@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const candidateModel = new Schema({
 
-    Name:{
+    name:{
         type:String,
         required:true
     },
@@ -13,14 +13,15 @@ const candidateModel = new Schema({
         required:true
     },
     photo:{
+        
         data:Buffer,
         contentType:String,
-        required:true
+        
     },
     partyLogo:{
         data:Buffer,
         contentType:String,
-        required:true
+        
     },
     votesCount:{
         type:Number

@@ -2,6 +2,9 @@ import React from 'react';
 import Card from '../components/Card';
 
 function VotingPage() {
+
+    
+
     return (
         <div className="bg-gray-100 min-h-screen p-5">
             <div className="text-black max-w-3xl mx-auto">
