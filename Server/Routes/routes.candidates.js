@@ -25,8 +25,9 @@ router.get('/', async (req, res) =>{
 
 router.patch('/:candidateId', async (req, res)=>{
     const {candidateId} = req.params;
+    const election = req.body;
 
-    const candidate = Candidate.findOne({_id:candidateId});
+    const candidate = Candidate.findOneAndUpdate({_id:candidateId}, election);
 
     const changes = req.body;
 })

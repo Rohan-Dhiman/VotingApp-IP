@@ -1,35 +1,75 @@
 const express = require('express');
+const Election = require('../Models/model.election.js');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.send('Get all elections');
-    
+router.get('/', async (req, res) => {
+    try{
+
+        const elections  = await Election.find({});
+        res.status(200).json(elections);
+    }
+    catch(err){
+        console.log(err.message);
+        res.status(400).send(err);
+    }
 });
 
 
 router.post('/', (req, res) => {
-
-
-    res.send('Create a new election');
+    const newElection = req.body;
+    try{
+        const election = Election.create(newElectioin);
+        res.status(200).json(election);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(400).send(err);
+    }
 });
 
 
 router.get('/:id', (req, res) => {
-    res.send(`Get election with ID: ${req.params.id}`);
+    const {id} = req.params;
+
+    try{
+        const election = Election.findOne({_id:id});
+        res.status(200).json(election);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(400).send(err);
+    }
     
 });
 
 
 router.put('/:id', (req, res) => {
-    res.send(`Update election with ID: ${req.params.id}`);
-    
+    const {id} = req.params;
+    const newElection = req.body();
+    try{
+        const election = Election.findOneAndUpdate({_id:id}, newElection);
+        res.status(200).json(election);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(400).json(err);
+    }
+
 });
 
 
 router.delete('/:id', (req, res) => {
-    res.send(`Delete election with ID: ${req.params.id}`);
-    // Replace with: deleteElection(req, res);
+    const {id} = req.params;
+    
+    try{
+        const newElection = Election.findOneAndDelete({_id:id});
+        res.status(200).json(newElection);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(400).send(err);
+    }
 });
 
 module.exports = router;
