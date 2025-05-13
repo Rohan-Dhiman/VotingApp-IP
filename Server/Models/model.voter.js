@@ -12,7 +12,7 @@ const VoterModel = new Schema({
         contentType:String
         
     },
-    AadharId:{
+    aadharId:{
         type:String,
         required:true,
         unique:true

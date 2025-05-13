@@ -1,20 +1,18 @@
 const mongoose = require('mongoose');
 
-
 const Schema = mongoose.Schema;
 
 const regionSchema = new Schema({
     admin:{
         type: Schema.Types.ObjectId,
         ref: 'Admin',
-        required: true
     },
     name: {
         type: String,
         required: true,
         unique: true
     },
-    Elections:{
+    elections:{
         type: [Schema.Types.ObjectId],
         ref: 'Election',
     },
@@ -22,5 +20,6 @@ const regionSchema = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'Voter',
     }
-
 })
+
+module.exports = mongoose.model("Region", regionSchema);
