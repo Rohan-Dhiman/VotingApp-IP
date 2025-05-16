@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const regionSchema = new Schema({
-    admin:{
-        type: Schema.Types.ObjectId,
-        ref: 'Admin',
-    },
     name: {
         type: String,
         required: true,
         unique: true
+    },
+    admin:{
+        type: Schema.Types.ObjectId,
+        ref: 'Admin',
     },
     elections:{
         type: [Schema.Types.ObjectId],

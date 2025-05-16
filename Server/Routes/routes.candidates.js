@@ -1,6 +1,6 @@
 const express = require('express');
 const Candidate = require('../Models/model.candidate.js')
-
+const {authenticate, authorize} = require('../middlewares/middleware.auth.js')
 const router = express.Router();
 
 
@@ -45,5 +45,18 @@ router.post('/', async (req, res)=>{
     
 })
 
+router.post("/create/candidate", authenticate, authorize(["admin"]), async (req, res) => {
+    const data = req.body;
+
+    try {
+        const candidate = await Candidate.create(data);
+        res.send("candidate is created");
+
+    } catch (error) {
+        console.error(error.message);
+        res.send('candidate not created');    
+    }
+  }
+);
 
 module.exports = router;

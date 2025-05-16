@@ -3,33 +3,45 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ElectionModel = new Schema({
-    title:{
-        type:String,
-        required:true,
-        unique:true
+    title: {
+        type: String,
+        required: true,
+        trim: true, // Remove leading/trailing whitespace
     },
-    postion:{
-        type:String,
-        required:true
+    description: {
+        type: String,
+        trim: true,
     },
-    pincode:{
-        type:Number,
-        required:true
+    startDate: {
+        type: Date,
+        required: true,
     },
-    startsOn:{
-        type:Date,
-        required:true
+    endDate: {
+        type: Date,
+        required: true,
     },
-    endsOn:{
-        type:Date,
-        required:true
+    region: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Region', // Reference to the Region model
+        required: true,
     },
-    candidates:[
-        {
-            type:Schema.Types.ObjectId,
-            ref: "model.candidate"
-        }
-    ]
+    candidates: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Candidate', // Reference to the Candidate model
+    }],
+    voters: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Voter'
+    }],
+    status: {
+        type: String,
+        enum: ['pending', 'ongoing', 'completed', 'cancelled'], // Restrict possible values
+        default: 'pending',
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    }
 
 })
 

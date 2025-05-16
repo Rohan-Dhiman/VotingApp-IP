@@ -25,12 +25,7 @@ const candidateModel = new Schema({
     },
     votesCount:{
         type:Number
-    },
-    Votes:[{
-        type:Schema.Types.ObjectId,
-        ref: "votes"
-    }]
-    
+    }
 });
 
 module.exports = mongoose.model("Candidate", candidateModel);

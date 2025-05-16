@@ -7,12 +7,14 @@ const candidateRoutes = require('./Routes/routes.candidates');
 const electionRoutes = require('./Routes/routes.election');
 const voterRoutes = require('./Routes/routes.voter');
 const superAdminRoutes = require('./Routes/routes.superAdmin');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(cookieParser());
 
 
 app.use('/api/v1/candidates', candidateRoutes);

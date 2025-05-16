@@ -14,7 +14,6 @@ const adminModel = new Schema({
     region:{
         type: String,
         required: true,
-        unique: true
     }
 })
 

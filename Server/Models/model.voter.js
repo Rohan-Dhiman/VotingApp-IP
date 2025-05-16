@@ -10,7 +10,6 @@ const VoterModel = new Schema({
     photo:{
         data:Buffer,
         contentType:String
-        
     },
     aadharId:{
         type:String,
@@ -25,6 +24,15 @@ const VoterModel = new Schema({
     password:{
         type:String,
         required:true
+    },
+    votedElections:{
+        type:[Schema.Types.ObjectId],
+        ref: 'Election'
+    },
+    region:{
+        type:Schema.Types.ObjectId,
+        ref: 'Region',
+        required: true
     }
 
 })
