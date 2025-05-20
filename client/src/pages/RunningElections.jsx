@@ -8,7 +8,7 @@ export default function RunningElectionsPage() {
   useEffect(() => {
     const fetchRunningElections = async () => {
       try {
-        const res = await axios.get("/api/elections/running"); // Adjust this endpoint based on your API
+        const res = await axios.get("http://localhost:3000/api/v1/elections"); // Adjust this endpoint based on your API
         setElections(res.data);
       } catch (error) {
         console.error("Error fetching running elections", error);
@@ -16,7 +16,6 @@ export default function RunningElectionsPage() {
         setLoading(false);
       }
     };
-
     fetchRunningElections();
   }, []);
 
@@ -36,7 +35,7 @@ export default function RunningElectionsPage() {
               key={election._id}
               className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200
                          border border-gray-200 p-4 md:p-6 flex flex-col justify-between"
-            >
+            > 
               <div>
                 <h3 className="text-lg md:text-xl font-semibold mb-2 text-gray-900">{election.title}</h3>
                 <p className="text-sm text-gray-600 mb-1">

@@ -7,47 +7,41 @@ const router = express.Router();
 router.get('/:candidateId', async (req, res) =>{
     const {candidateId} = req.params;
     
-    const candidate =await Candidate.find({_id:candidateId});
+    const candidate =await Candidate.findById({_id:candidateId});
 
     res.send(candidate);
 })
 
 router.get('/', async (req, res) =>{
+    const regionId = req.cookies.regionId;
+
     try {
-        const candidateList = await Candidate.find({});
+        const candidateList = await Candidate.find({region: regionId});
         res.status(200).send(candidateList);  
-        
     } catch (error)   {
-        res.status(400).send(candidateList);
+        res.status(400).send(error.message);
     }  
 })
 
 
-router.patch('/:candidateId', async (req, res)=>{
+router.patch('/:candidateId', authenticate, authorize(['admin']), async (req, res)=>{
     const {candidateId} = req.params;
-    const election = req.body;
-
-    const candidate = Candidate.findOneAndUpdate({_id:candidateId}, election);
-
     const changes = req.body;
-})
-
-router.post('/', async (req, res)=>{
-    const candidateData = req.body;
 
     try{
-        const newCandidate = await Candidate.create(candidateData);
-        res.status(200).json(newCandidate);
-
-    }catch(err){
-        res.status(400).json({error: err.message})
+        const candidate = Candidate.findByIdAndUpdate(candidateId, changes);
+        res.status(200).send("changes added", candidate);
     }
-    
+    catch(err){
+        console.error('some error occured', err.message);
+        res.send('changes couldnt be added');
+    }
 })
+
 
 router.post("/create/candidate", authenticate, authorize(["admin"]), async (req, res) => {
     const data = req.body;
-
+    const region = req.cookies.regionId;
     try {
         const candidate = await Candidate.create(data);
         res.send("candidate is created");
@@ -58,5 +52,7 @@ router.post("/create/candidate", authenticate, authorize(["admin"]), async (req,
     }
   }
 );
+
+
 
 module.exports = router;

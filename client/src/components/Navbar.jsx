@@ -25,6 +25,9 @@ function Navbar() {
         navigate("/");
     };
 
+    // const handleLogin(email, )=>{
+
+
     return (
         <div>
             <nav className="bg-black p-4 shadow-lg flex justify-between items-center">

@@ -1,5 +1,6 @@
 const express = require('express');
 const Election = require('../Models/model.election.js');
+const Region = require('../Models/model.region.js')
 const {authenticate, authorize} = require('../middlewares/middleware.auth.js')
 const router = express.Router();
 
@@ -72,5 +73,17 @@ router.post("/create/candidate", authenticate, authorize(["admin"]), async (req,
     }
   }
 );
+
+router.get('/candidates', async (req, res)=>{
+    const regionId = req.user.regionId;
+    const body = req.body;
+
+    try {
+        
+        
+    } catch (error) {
+        
+    }
+})
 
 module.exports = router;

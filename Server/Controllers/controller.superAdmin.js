@@ -38,6 +38,11 @@ const signup =  async (req, res) => {
     adminData.password = await encryptString(adminData.password);
     adminData.email = await encryptString(adminData.email);
     const superAdmin = await SuperAdmin.create(adminData);
+    const token = await setUser({
+      ...req.body,
+      role: 'superAdmin'
+    });
+    res.cookie('authToken', token);
     res.status(201).json(adminData);
     
   } catch (error) {
