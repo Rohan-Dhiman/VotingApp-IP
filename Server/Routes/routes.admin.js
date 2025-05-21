@@ -4,6 +4,7 @@ const { setUser } = require("../Services/Auth");
 const { authenticate, authorize } = require("../middlewares/middleware.auth");
 const Region = require('../Models/model.region')
 const Admin = require("../Models/model.admin");
+const Election = require("../Models/model.election");
 
 const router = express.Router();
 
@@ -33,24 +34,5 @@ router.post("/login", async (req, res) => {
     res.status(500).send("internal server error");
   }
 });
-
-router.post(
-  "/create/poll",
-  authenticate,
-  authorize(["admin"]),
-  async (req, res) => {
-    const data = req.body;
-
-    try {
-      if (await Election.find({ name: data.name, regoin: data.region })) {
-        res.send("Election already made");
-      }
-      const election = await Election.create(data);
-      res.send("election made");
-    } catch (err) {
-      console.error("election not made", err.message);
-    }
-  }
-);
 
 module.exports = router;

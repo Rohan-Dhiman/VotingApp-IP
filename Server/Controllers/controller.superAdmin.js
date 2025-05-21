@@ -74,6 +74,16 @@ const makeAdmin =  async (req, res)=>{
     }
 }
 
+const getRegions = async (req, res) => {
+    try {
+        const regions = await Region.find({});
+        res.status(200).json(regions);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("couldnt fetch regions");
+    }
+}
+
 module.exports = {
-    signup, login , makeAdmin
+    signup, login , makeAdmin, getRegions
 }

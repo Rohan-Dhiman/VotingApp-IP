@@ -60,30 +60,51 @@ router.delete('/:id', (req, res) => {
     }
 });
 
-router.post("/create/candidate", authenticate, authorize(["admin"]), async (req, res) => {
+
+router.post(
+  "/create",
+  authenticate,
+  authorize(["admin"]),
+  async (req, res) => {
     const data = req.body;
-
     try {
-        const candidate = await Candidate.create(data);
-        res.send("candidate is created");
-
-    } catch (error) {
-        console.error(error.message);
-        res.send('candidate not created');    
+      if (await Election.find({ name: data.name, region: data.region })) {
+        return res.send("Election already made");
+      }
+      const election = await Election.create(data);
+      res.send("election made");
+    } catch (err) {
+      console.error("election not made", err.message);
     }
   }
 );
 
-router.get('/candidates', async (req, res)=>{
-    const regionId = req.user.regionId;
-    const body = req.body;
+router.post('/:electionId/results', async (req, res) => {
+    const { electionId } = req.params;
 
     try {
-        
-        
-    } catch (error) {
-        
+        const election = await Election.findById(electionId);
+        if (!election) {
+            return res.status(404).json({ message: "Election not found" });
+        }
+
+        // Build results array: each candidate's index as candidateId and their votes
+        const results = election.candidates.map((candidate, idx) => ({
+            candidateId: candidate._id || idx,
+            name: candidate.name,
+            votes: candidate.votes || 0
+        }));
+
+        // Optionally, save results in the election document
+        results = results.sort((a, b) => b.votes - a.votes);
+        election.results = results;
+        await election.save();
+
+        res.status(200).json({ results });
+    } catch (err) {
+        console.error(err.message);
+        res.status(400).send(err);
     }
-})
+});
 
 module.exports = router;

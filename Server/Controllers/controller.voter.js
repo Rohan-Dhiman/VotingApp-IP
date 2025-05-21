@@ -14,7 +14,7 @@ const loginVoter = async (req, res)=>{
         
         if(!isMatch) return res.status(401).json("access denied");
         console.log("voter found", voter);
-        const token = await setUser({aadharId, password, _id: voter._id});
+        const token = await setUser({aadharId, password, _id: voter._id, role: "voter"});
         
 
         res.cookie('authToken', token, {httpOnly: true});
@@ -30,7 +30,6 @@ const loginVoter = async (req, res)=>{
 
 const signupVoter = async (req, res)=>{
     const voterData = req.body;
-   
 
     try{
         const existingVoter = await Voter.findOne({aadharId: voterData.aadharId});
@@ -71,29 +70,36 @@ const findVoter = async (req, res)=>{
     }
 }
 
-const voteCandidate = async (req, res)=>{
-    const {ElectionId} = req.params;
+const voteCandidate = async (req, res) => {
+    const { ElectionId } = req.params;
     const voterId = req.user._id;
-    const body = req.body;
+    const { candidateId } = req.body; // candidateId should be the _id or index of the candidate in the array
 
-    try{
-        const voter = await findById(voterId);
-        if(voter.votedElections.includes(ElectionId)){
+    try {
+        const voter = await Voter.findById(voterId);
+        if (voter.votedElections.includes(ElectionId)) {
             return res.status(409).send("cannot vote, already voted");
         }
-        
+
+        const election = await require('../Models/model.election').findById(ElectionId);
+        if (!election) return res.status(404).send("Election not found");
+
+        // Find candidate by _id (if you store _id for each candidate) or by index
+        const candidate = election.candidates.id(candidateId) ||
+            election.candidates.find(c => c._id?.toString() === candidateId) ||
+            election.candidates[candidateId]; // fallback to index if needed
+
+        if (!candidate) return res.status(404).send("candidate Not found");
+
+        candidate.votes = (candidate.votes || 0) + 1;
+        await election.save();
+
         voter.votedElections.push(ElectionId);
         await voter.save();
-        
-        const candidate = await findById(body.candidateId);
-        if(!candidate) return res.status(404).send("candidate Not found")
-        candidate.votesCount = candidate.votesCount+1;
-        await candidate.save()
 
-        res.status(200).json({ElectionId, voterId, candidateId});
-    }
-    catch(error){
-        res.status(500).send('some error occured', error.message);
+        res.status(200).json({ ElectionId, voterId, candidateId });
+    } catch (error) {
+        res.status(500).send('some error occurred: ' + error.message);
     }
 }
 

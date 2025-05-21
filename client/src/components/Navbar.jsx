@@ -60,7 +60,6 @@ function Navbar() {
                                 <NavLink to="/create/poll" className={navClass}>Create Election</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/create/candidate" className={navClass}>Candidates</NavLink>
                             </li>
                         </>
                     )}

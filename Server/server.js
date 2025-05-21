@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const candidateRoutes = require('./Routes/routes.candidates');
 const electionRoutes = require('./Routes/routes.election');
 const voterRoutes = require('./Routes/routes.voter');
 const adminRoutes = require('./Routes/routes.admin');
@@ -20,7 +19,6 @@ app.use(cors());
 app.use(cookieParser());
 
 
-app.use('/api/v1/candidates', candidateRoutes);
 app.use('/api/v1/elections', electionRoutes);
 app.use('/api/v1/voter', voterRoutes);
 app.use('/api/v1/admin', adminRoutes)

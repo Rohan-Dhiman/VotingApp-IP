@@ -10,7 +10,6 @@ import PastPolls from './pages/PastPolls'
 import AvailablePolls from './pages/AvailablePolls'
 import VoterSignup from './pages/VoterSignup'
 import CreateElection from './pages/CreateElection'
-import CreateCandidate from './pages/CreateCandidate'
 import NotFound from './pages/NotFound';
 
 
@@ -25,8 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/create/poll" element={<CreateElection/>} />
-          <Route path="/create/candidate" element={<CreateCandidate/>} />
-          <Route path="/signup" element={<VoterSignup/>}/>
+           <Route path="/signup" element={<VoterSignup/>}/>
           <Route path="/results" element={<ResultPage />} />
           <Route path='/pastPolls' element={<PastPolls/>} />
           <Route path="/availablePolls" element={<AvailablePolls/>} />

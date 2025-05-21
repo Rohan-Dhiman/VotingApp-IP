@@ -11,7 +11,8 @@ const authenticate = (req, res, next) => {
   try {
     const secretKey = process.env.JWT_SECRET || 'secret-key';
     const decoded = jwt.verify(token, secretKey);
-    req.user = decoded; 
+    req.user = decoded;
+    req.user.role = decoded.role; 
     next();
   } catch (error) {
     console.error('Token verification error:', error);
@@ -20,6 +21,7 @@ const authenticate = (req, res, next) => {
 };
 
 const authorize = (roles) => (req, res, next) => {
+  console.log("req.user", req.user);
   if (!req.user || !roles.includes(req.user.role)) {
     return res.status(403).json({ message: 'Forbidden: Insufficient permissions' });
   }
